@@ -515,6 +515,10 @@ body::before {
   overflow: hidden;
   transition: all 0.3s;
   box-shadow: 0 0 5px rgba(0, 240, 255, 0.1);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .cyber-btn:hover {
