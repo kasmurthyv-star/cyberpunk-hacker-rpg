@@ -1,0 +1,13 @@
+# OS / IDE files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local configuration
+.agents/
+.gemini/
+*.log
+node_modules/
+dist/
+package-lock.json

@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NETRUNNER // NEON GRID v1.0.4</title>
+  <meta name="description" content="Infiltrate the NEXUS Corp servers, breach firewalls, and extract the AI core in this cyberpunk netrunning RPG.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="crt-effect">
+  <!-- Scanline filter overlay for CRT vibe -->
+  <div class="scanlines"></div>
+  <div class="flicker-overlay"></div>
+
+  <div class="game-container">
+    <!-- Header -->
+    <header class="game-header">
+      <div class="header-logo">
+        <span class="glitch-text" data-text="NETRUNNER">NETRUNNER</span>
+        <span class="system-status">// SYSTEM_ONLINE</span>
+      </div>
+      <div class="header-controls">
+        <button id="sound-toggle-btn" class="cyber-btn small-btn" title="Toggle Synthesized SFX">
+          <span class="btn-glow"></span>
+          <span class="btn-text">AUDIO: ON</span>
+        </button>
+        <span class="node-level" id="grid-depth">DEPTH: SUB-LEVEL_0</span>
+      </div>
+    </header>
+
+    <!-- Main Layout Grid -->
+    <div class="main-layout">
+      
+      <!-- Left Sidebar: Stats -->
+      <aside class="sidebar-panel glass-panel">
+        <div class="panel-header">
+          <h3>DECK_STATUS</h3>
+        </div>
+        <div class="panel-body">
+          <div class="stat-group">
+            <span class="stat-label">CODENAME:</span>
+            <span class="stat-value" id="stat-codename">UNKNOWN</span>
+          </div>
+          <div class="stat-group">
+            <span class="stat-label">CLASS:</span>
+            <span class="stat-value" id="stat-class">NONE</span>
+          </div>
+          <hr class="cyber-divider">
+          
+          <div class="stat-group bar-group">
+            <div class="label-row">
+              <span class="stat-label">CYBERDECK RAM:</span>
+              <span class="stat-value"><span id="stat-ram-curr">0</span>/<span id="stat-ram-max">0</span></span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar ram-bar" id="ram-progress" style="width: 0%;"></div>
+            </div>
+          </div>
+
+          <div class="stat-group">
+            <span class="stat-label">CPU POWER:</span>
+            <span class="stat-value" id="stat-cpu">1.2 GHz</span>
+          </div>
+
+          <div class="stat-group">
+            <span class="stat-label">CREDITS:</span>
+            <span class="stat-value text-green" id="stat-credits">0 ₵</span>
+          </div>
+
+          <hr class="cyber-divider">
+
+          <div class="stat-group bar-group">
+            <div class="label-row">
+              <span class="stat-label text-alert">NEXUS HEAT TRACE:</span>
+              <span class="stat-value text-alert" id="stat-heat-val">0%</span>
+            </div>
+            <div class="progress-bar-container alert-container">
+              <div class="progress-bar heat-bar" id="heat-progress" style="width: 0%;"></div>
+            </div>
+            <span class="sub-alert" id="trace-warning">TRACE STATUS: INACTIVE</span>
+          </div>
+          
+          <hr class="cyber-divider">
+          <div class="cyberware-list">
+            <div class="stat-label">CYBERWARE / PROGRAMS:</div>
+            <ul id="programs-list">
+              <li>No external modules loaded</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center: Main Content Area -->
+      <main class="main-display glass-panel" id="main-display">
+        
+        <!-- Screen 1: Startup / Character Customization -->
+        <section id="screen-startup" class="game-screen active-screen">
+          <div class="welcome-screen">
+            <h1 class="welcome-title text-glow">CYBERPUNK: GRIDRUNNER</h1>
+            <p class="welcome-subtitle">SECURE CONNECTION ESTABLISHED. UPLINK CONFIRMED.</p>
+            <div class="narrative-block">
+              <p>Welcome, Netrunner. You are connected to the central grid sub-routing of NEXUS Corp. Your objective is simple: navigate the subnet nodes, bypass corporate firewalls, and extract the classified "Genesis" AI Core.</p>
+              <p>Megacorp security is tight. Every hack increases your Heat level. If their trace hits 100%, black-ICE will fry your neural links. Choose your archetype and plug in.</p>
+            </div>
+
+            <div class="setup-form">
+              <div class="input-group">
+                <label for="codename-input">ENTER CODENAME:</label>
+                <input type="text" id="codename-input" class="cyber-input" value="NEO_GHOST" maxlength="12">
+              </div>
+
+              <div class="class-selection-container">
+                <label>SELECT ARCHETYPE:</label>
+                <div class="class-cards">
+                  <!-- Codebreaker Card -->
+                  <div class="class-card selected" data-class="codebreaker">
+                    <div class="card-glow"></div>
+                    <div class="class-title">CODEBREAKER</div>
+                    <div class="class-desc">Advanced CPU processing. Buffer size +1 in hacks. Speed is key.</div>
+                    <ul class="class-bonus">
+                      <li>RAM: 8 / CPU: 2.4 GHz</li>
+                      <li>Special: Decryptor Program</li>
+                    </ul>
+                  </div>
+
+                  <!-- Infiltrator Card -->
+                  <div class="class-card" data-class="infiltrator">
+                    <div class="card-glow"></div>
+                    <div class="class-title">INFILTRATOR</div>
+                    <div class="class-desc">High stealth signature. Generates 30% less Heat when hacking.</div>
+                    <ul class="class-bonus">
+                      <li>RAM: 10 / CPU: 1.6 GHz</li>
+                      <li>Special: Stealth Cloak v1</li>
+                    </ul>
+                  </div>
+
+                  <!-- Cyber-Soldier Card -->
+                  <div class="class-card" data-class="soldier">
+                    <div class="card-glow"></div>
+                    <div class="class-title">CYBER-SOLDIER</div>
+                    <div class="class-desc">Fortified cyberdeck core. Takes 40% less damage from ICE firewalls.</div>
+                    <ul class="class-bonus">
+                      <li>RAM: 6 / CPU: 1.2 GHz</li>
+                      <li>Special: Firewall Shield</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <button id="start-game-btn" class="cyber-btn large-btn">
+                <span class="btn-glow"></span>
+                <span class="btn-text">INITIALIZE NEURAL LINK [JACK IN]</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Screen 2: Node Grid Strategy Map -->
+        <section id="screen-grid" class="game-screen">
+          <div class="grid-screen-layout">
+            <div class="screen-header">
+              <h2>LOCAL NET NODE ROUTING</h2>
+              <span class="panel-subtitle">Select adjacent node to traverse / execute action</span>
+            </div>
+            
+            <div class="grid-map-container" id="grid-map">
+              <!-- SVG connector lines will be generated here dynamically -->
+              <svg id="grid-connections" class="grid-connections-svg"></svg>
+              <div class="grid-nodes-wrapper" id="grid-nodes-wrapper">
+                <!-- Nodes dynamically generated -->
+              </div>
+            </div>
+
+            <div class="node-legend">
+              <div class="legend-item"><span class="legend-dot dot-current"></span><span>Current Node</span></div>
+              <div class="legend-item"><span class="legend-dot dot-data"></span><span>Data Haven (+Creds)</span></div>
+              <div class="legend-item"><span class="legend-dot dot-security"></span><span>Security Firewall (Hacking)</span></div>
+              <div class="legend-item"><span class="legend-dot dot-shop"></span><span>Tech Market</span></div>
+              <div class="legend-item"><span class="legend-dot dot-boss"></span><span>Database Core (Target)</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Screen 3: Hacking Breach Interface (Breach Protocol Mini-game) -->
+        <section id="screen-hack" class="game-screen">
+          <div class="hack-screen-layout">
+            <div class="hack-header-bar">
+              <div class="hack-timer-section">
+                <span class="stat-label">BUFFER OVERFLOW IN:</span>
+                <span class="timer-countdown text-glow" id="hack-timer">30.0s</span>
+              </div>
+              <div class="hack-info-section">
+                <h2 id="hack-node-title">BREACH PROTOCOL</h2>
+                <span class="panel-subtitle" id="hack-node-subtitle">FIREWALL INTEGRITY DETECTED</span>
+              </div>
+            </div>
+
+            <div class="breach-workspace">
+              <!-- Code Matrix (Left) -->
+              <div class="matrix-panel glass-panel sub-glass">
+                <div class="panel-header-small">CODE MATRIX</div>
+                <div class="matrix-grid-container" id="matrix-grid">
+                  <!-- Generated Matrix e.g. 5x5 of Hex values -->
+                </div>
+              </div>
+
+              <!-- Sequences & Buffer (Right) -->
+              <div class="sequence-panel">
+                <!-- Target Sequences -->
+                <div class="target-sequences glass-panel sub-glass">
+                  <div class="panel-header-small">REQUIRED SEQUENCES</div>
+                  <div class="sequences-container" id="sequences-list">
+                    <!-- Dynamic sequence items with credits rewards -->
+                  </div>
+                </div>
+
+                <!-- Buffer Tracker -->
+                <div class="buffer-panel glass-panel sub-glass">
+                  <div class="panel-header-small">BUFFER MEMORY</div>
+                  <div class="buffer-slots" id="buffer-slots">
+                    <!-- Dynamic buffer slots based on CPU/RAM -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hack-controls">
+              <button id="abort-hack-btn" class="cyber-btn alert-btn">
+                <span class="btn-glow"></span>
+                <span class="btn-text">ABORT BREACH [JACK OUT]</span>
+              </button>
+              <div class="matrix-tip">
+                Tip: Alternate between selecting numbers in the active highlighted ROW (green) and COLUMN (yellow).
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Screen 4: Cyber Shop -->
+        <section id="screen-shop" class="game-screen">
+          <div class="shop-screen-layout">
+            <div class="screen-header">
+              <h2>TECH MARKET & BLACK CYBERWARE</h2>
+              <span class="panel-subtitle">Install hardware modules and upgrade your deck</span>
+            </div>
+
+            <div class="shop-grid" id="shop-items-container">
+              <!-- Dynamically populated shop items -->
+            </div>
+
+            <div class="shop-controls">
+              <button id="leave-shop-btn" class="cyber-btn">
+                <span class="btn-glow"></span>
+                <span class="btn-text">RETURN TO NODE MAP</span>
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- Screen 5: Game Over / Victory -->
+        <section id="screen-gameover" class="game-screen">
+          <div class="gameover-container">
+            <h1 id="gameover-title" class="glitch-text text-glow" data-text="LINK TERMINATED">LINK TERMINATED</h1>
+            <div class="gameover-graphic" id="gameover-graphic">
+              <!-- Custom graphic or text -->
+            </div>
+            <div class="gameover-stats glass-panel sub-glass">
+              <h3>RUN REPORT</h3>
+              <div class="report-row">
+                <span>Codename:</span>
+                <span id="report-codename">-</span>
+              </div>
+              <div class="report-row">
+                <span>Class Archetype:</span>
+                <span id="report-class">-</span>
+              </div>
+              <div class="report-row">
+                <span>Credits Extracted:</span>
+                <span id="report-credits">-</span>
+              </div>
+              <div class="report-row">
+                <span>Highest Depth Reached:</span>
+                <span id="report-depth">-</span>
+              </div>
+              <div class="report-row">
+                <span>Status:</span>
+                <span id="report-status" class="text-glow">-</span>
+              </div>
+            </div>
+            <button id="restart-game-btn" class="cyber-btn large-btn">
+              <span class="btn-glow"></span>
+              <span class="btn-text">BOOT UP NEURAL LINK (PLAY AGAIN)</span>
+            </button>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Bottom: Interactive Console / Terminal Logs -->
+    <footer class="terminal-panel glass-panel">
+      <div class="panel-header flex-header">
+        <h3>DECK_CONSOLE_OUTPUT</h3>
+        <span class="cursor-blink">_</span>
+      </div>
+      <div class="terminal-body" id="terminal-body">
+        <div class="terminal-line system-line">[SYSTEM] Initializing deck diagnostic logs...</div>
+        <div class="terminal-line system-line">[SYSTEM] Cyberdeck BIOS v9.81 loaded.</div>
+        <div class="terminal-line system-line">[SYSTEM] Waiting for user link authorization...</div>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="audio.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
