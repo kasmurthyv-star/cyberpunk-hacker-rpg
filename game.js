@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const el = {
     soundBtn: document.getElementById('sound-toggle-btn'),
+    themeBtn: document.getElementById('theme-toggle-btn'),
     gridDepth: document.getElementById('grid-depth'),
     statCodename: document.getElementById('stat-codename'),
     statClass: document.getElementById('stat-class'),
@@ -103,6 +104,35 @@ document.addEventListener('DOMContentLoaded', () => {
     if (state.soundEnabled) {
       window.sfx.playClick();
     }
+  });
+
+  // --- Theme Toggle Binding ---
+  const themes = ['neon', 'matrix', 'amber', 'chrome'];
+  let currentThemeIdx = 0;
+  
+  el.themeBtn.addEventListener('click', () => {
+    // Remove previous theme class
+    const prevTheme = themes[currentThemeIdx];
+    if (prevTheme !== 'neon') {
+      document.body.classList.remove(`theme-${prevTheme}`);
+    }
+    
+    // Cycle index
+    currentThemeIdx = (currentThemeIdx + 1) % themes.length;
+    const newTheme = themes[currentThemeIdx];
+    
+    // Add new theme class
+    if (newTheme !== 'neon') {
+      document.body.classList.add(`theme-${newTheme}`);
+    }
+    
+    el.themeBtn.querySelector('.btn-text').innerText = `THEME: ${newTheme.toUpperCase()}`;
+    
+    if (state.soundEnabled) {
+      window.sfx.playClick();
+    }
+    
+    logToConsole(`System: Display palette shifted to ${newTheme.toUpperCase()}`, 'info');
   });
 
   // Hover sound bindings for general buttons

@@ -21,6 +21,50 @@
   --glow-yellow: 0 0 10px rgba(255, 238, 0, 0.6);
 }
 
+/* Theme Customizations */
+body.theme-matrix {
+  --bg-color: #030804;
+  --panel-bg: rgba(5, 15, 6, 0.85);
+  --panel-border: rgba(57, 255, 20, 0.25);
+  --panel-border-glow: rgba(57, 255, 20, 0.1);
+  --neon-cyan: #39ff14; /* green primary */
+  --neon-pink: #10b981; /* different green */
+  --neon-green: #39ff14;
+  --neon-yellow: #a7f3d0;
+  --text-primary: #d1fae5;
+  --glow-cyan: 0 0 10px rgba(57, 255, 20, 0.6);
+  --glow-pink: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+body.theme-amber {
+  --bg-color: #0c0803;
+  --panel-bg: rgba(18, 12, 5, 0.85);
+  --panel-border: rgba(255, 150, 0, 0.25);
+  --panel-border-glow: rgba(255, 150, 0, 0.1);
+  --neon-cyan: #ff9600; /* amber primary */
+  --neon-pink: #ff3c00; /* reddish amber */
+  --neon-green: #ffea00; /* yellow-green secondary */
+  --neon-yellow: #ffd000;
+  --text-primary: #ffedd5;
+  --glow-cyan: 0 0 10px rgba(255, 150, 0, 0.6);
+  --glow-pink: 0 0 10px rgba(255, 60, 0, 0.6);
+}
+
+body.theme-chrome {
+  --bg-color: #0d1117;
+  --panel-bg: rgba(22, 27, 34, 0.85);
+  --panel-border: rgba(100, 200, 255, 0.25);
+  --panel-border-glow: rgba(100, 200, 255, 0.1);
+  --neon-cyan: #64c8ff; /* soft blue */
+  --neon-pink: #ff84a1; /* soft pink */
+  --neon-green: #6ee7b7;
+  --neon-yellow: #fde047;
+  --text-primary: #f0f6fc;
+  --glow-cyan: 0 0 10px rgba(100, 200, 255, 0.6);
+  --glow-pink: 0 0 10px rgba(255, 132, 161, 0.6);
+}
+
+
 /* Reset and Global Styles */
 * {
   margin: 0;
